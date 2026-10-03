@@ -1,7 +1,7 @@
 ---
 title: "Skiboo II - ta route du Rhum à toi"
 subtitle: "Funk Set designed on DJ Studio"
-date: 2026-10-03T11:30:00+01:00
+date: 2026-10-04T13:02:00+01:00
 season: 2026
 episode: 70
 keywords: ["Studio", "Funk", "DJ Studio"]

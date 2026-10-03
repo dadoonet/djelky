@@ -1,7 +1,7 @@
 ---
 title: "Skiboo II - Ma route du Rhum à moi - single"
 subtitle: "Made with Love and Suno"
-date: 2026-10-10T11:30:00+01:00
+date: 2026-10-11T11:30:00+01:00
 season: 2026
 episode: 71
 keywords: ["Studio", "Single", "Funk", "Suno"]

@@ -1,7 +1,7 @@
 ---
 title: "Skiboo II - ta route du Rhum à toi - House mix"
 subtitle: "House Set recorded from my studio in Cergy, France"
-date: 2026-10-17T11:30:00+01:00
+date: 2026-10-18T11:30:00+01:00
 season: 2026
 episode: 72
 keywords: ["Studio", "House"]
