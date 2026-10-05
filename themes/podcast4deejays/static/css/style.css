@@ -780,7 +780,7 @@ a:hover { text-decoration: underline; }
 
 .mix-card-youtube-btn:hover {
   transform: scale(1.1);
-  color: #ffffff;
+  color: #ff0000;
   text-decoration: none;
 }
 
