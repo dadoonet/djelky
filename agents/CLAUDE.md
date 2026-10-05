@@ -94,7 +94,7 @@ GitHub Actions déploie automatiquement depuis `main` vers `gh-pages`.
 | Titre        | DJ Elky mixes                                    |
 | Auteur       | David Pilato (david@pilato.fr)                   |
 | Site         | https://djelky.pilato.fr/                        |
-| RSS          | https://djelky.pilato.fr/djdadoo.rss             |
+| RSS          | https://djelky.pilato.fr/djelky.rss              |
 | Description  | Funk, house and DJ groove mixes                  |
 | Catégorie    | Music                                            |
 | Explicit     | false                                            |
@@ -103,7 +103,7 @@ GitHub Actions déploie automatiquement depuis `main` vers `gh-pages`.
 
 ## Validation RSS
 
-Utiliser [podba.se](https://podba.se/?url=https://djelky.pilato.fr/djdadoo.rss) pour valider le flux RSS après chaque déploiement.
+Utiliser [podba.se](https://podba.se/?url=https://djelky.pilato.fr/djelky.rss) pour valider le flux RSS après chaque déploiement.
 
 ## Test local
 

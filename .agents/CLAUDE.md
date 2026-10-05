@@ -8,7 +8,7 @@ Site web et flux RSS pour la publication des mixes de DJ Elky (David Pilato) sur
 djdadoo.net/
 ├── index.html         # Web player (Howler.js + SiriWave)
 ├── playlist.js        # Tableau JS des mixes (ordre antéchronologique)
-├── djdadoo.rss        # Flux RSS podcast (iTunes/Apple Podcasts)
+├── djelky.rss         # Flux RSS podcast (iTunes/Apple Podcasts)
 ├── djdadoo-new.jpg    # Logo du podcast
 ├── CNAME              # Domaine : djelky.pilato.fr
 ├── css/styles.css     # Style (dégradé violet → bleu)
@@ -39,7 +39,7 @@ Insérer une entrée **en tête du tableau** `dadoonetPlayList` :
 },
 ```
 
-### 3. Ajouter l'item dans `djdadoo.rss`
+### 3. Ajouter l'item dans `djelky.rss`
 
 Insérer un nouvel `<item>` **juste après** la balise `<channel>` (ordre antéchronologique).
 
@@ -77,7 +77,7 @@ Nommer le fichier `YYYYMMDD-nomevt.jpg` (ou `.png`).
 ### 5. Commiter et pousser
 
 ```bash
-git add playlist.js djdadoo.rss img/YYYYMMDD-nomevt.jpg
+git add playlist.js djelky.rss img/YYYYMMDD-nomevt.jpg
 git commit -m "Add <Nom du mix>"
 git push
 ```
@@ -102,7 +102,7 @@ Utiliser [podba.se](https://podba.se/) pour valider le flux RSS avant de pousser
 
 ## Règles importantes
 
-- Toujours maintenir l'ordre **antéchronologique** (le plus récent en premier) dans `playlist.js` et `djdadoo.rss`.
+- Toujours maintenir l'ordre **antéchronologique** (le plus récent en premier) dans `playlist.js` et `djelky.rss`.
 - Ne jamais modifier les fichiers JS/CSS liés au player (`js/player.js`, `css/styles.css`) sauf si explicitement demandé.
 - Les fichiers audio ne sont **pas** dans ce dépôt — ils sont sur GCS.
 - Ne pas modifier le GUID du feed RSS (`<podcast:guid>`).

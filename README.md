@@ -77,7 +77,7 @@ languageCode = "en-us"
 [params.podcast]
 name = "DJ Elky"                           # Podcast/author name (displayed in header)
 title = "DJ Elky Mixes"                    # Optional: RSS feed channel <title> (defaults to Site.title)
-filename = "djdadoo.rss"                   # RSS feed filename
+filename = "djelky.rss"                    # RSS feed filename
 subtitle = "Deep House & Techno"           # Short description
 description = "..."                        # Long description for RSS
 author = "DJ Elky"                         # Episode author fallback
@@ -134,7 +134,7 @@ podcastGUID = "..."                        # Unique podcast ID
    The audio URL is **auto-derived** from the page bundle path: `{baseAudioURL}mixes/2026/2026-06-21-summer-solstice.mp3`.
    Set `audio_url` explicitly only if the GCS file has not yet been renamed to match the bundle structure.
 
-4. **Preview** with `hugo server` and verify the episode appears in the grid and the RSS feed (`/djdadoo.rss`).
+4. **Preview** with `hugo server` and verify the episode appears in the grid and the RSS feed (`/djelky.rss`).
 
 ---
 
@@ -213,6 +213,6 @@ The `youtube` field accepts either:
 
 ## RSS feed
 
-The podcast RSS feed is available at `/djdadoo.rss` and is compatible with Apple Podcasts, Spotify, and any standard podcast client.
+The podcast RSS feed is available at `/djelky.rss` and is compatible with Apple Podcasts, Spotify, and any standard podcast client.
 
 To validate the feed: [https://podba.se/](https://podba.se/)
