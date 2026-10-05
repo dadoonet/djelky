@@ -61,6 +61,14 @@ a:hover { text-decoration: underline; }
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
+}
+
+.header-podcasts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .header-search {
@@ -194,8 +202,9 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 
-.social-link ion-icon {
-  font-size: 1.2rem;
+.social-link i {
+  font-size: 0.95rem;
+  line-height: 1;
 }
 
 .visually-hidden {
@@ -240,23 +249,46 @@ a:hover { text-decoration: underline; }
   margin-top: 2px;
 }
 
-.itunes-link {
+.itunes-link,
+.spotify-link {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
   font-size: 0.8rem;
   font-weight: 600;
   padding: 8px 14px;
   border: 1px solid var(--color-accent);
   border-radius: 20px;
   color: var(--color-accent);
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   white-space: nowrap;
 }
+
+.itunes-link i,
+.spotify-link i {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.itunes-link:hover,
+.spotify-link:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
 .itunes-link:hover {
   background: var(--color-accent);
-  color: #fff;
-  text-decoration: none;
+}
+
+.spotify-link {
+  border-color: #1db954;
+  color: #1db954;
+}
+
+.spotify-link:hover {
+  background: #1db954;
+  border-color: #1db954;
 }
 
 /* ----- Season sections ----- */
@@ -1145,6 +1177,31 @@ a:hover { text-decoration: underline; }
 }
 
 /* ----- Responsive ----- */
+@media (max-width: 1080px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .header-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .header-podcasts {
+    flex-basis: 100%;
+    justify-content: flex-end;
+  }
+  .header-search {
+    order: -1;
+    width: 100%;
+  }
+  .header-search-results {
+    left: 0;
+    right: auto;
+    width: 100%;
+  }
+}
+
 @media (max-width: 640px) {
   .header-inner {
     flex-direction: column;
@@ -1153,6 +1210,10 @@ a:hover { text-decoration: underline; }
   }
   .header-actions {
     flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .header-podcasts {
+    flex-basis: 100%;
     justify-content: flex-end;
   }
   .header-search {

@@ -66,6 +66,7 @@ enableGitInfo = true
   filename     = "djdadoo.rss"
   # For the website only, it adds a link to the podcast
   podcastLink   = "https://podcasts.apple.com/fr/podcast/dj-elky-mixes/id959495351"
+  spotifyLink   = "https://open.spotify.com/show/5u5Xgmixz6wLVl9srgACom"
   # For each episode
   # If the page does not define an audio_url field, the mp3 file is automatically guessed
   # from the website path with baseAudioURL as a prefix

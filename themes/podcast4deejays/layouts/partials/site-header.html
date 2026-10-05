@@ -23,14 +23,20 @@
       <div class="header-socials">
         {{ range .Site.Data.socials }}
         <a href="{{ .href }}" target="{{ .target }}" title="{{ .title }}" class="social-link">
-          <ion-icon name="{{ .icon }}"></ion-icon>
+          <i class="{{ .icon }}"></i>
         </a>
         {{ end }}
       </div>
-      <a class="itunes-link" href="{{ .Site.Params.podcast.podcastLink }}" target="_blank" rel="noopener">
-        <ion-icon name="logo-apple"></ion-icon>
-        Apple Podcasts
-      </a>
+      <div class="header-podcasts">
+        <a class="itunes-link" href="{{ .Site.Params.podcast.podcastLink }}" target="_blank" rel="noopener">
+          <i class="fa-brands fa-apple"></i>
+          Apple Podcasts
+        </a>
+        <a class="spotify-link" href="{{ .Site.Params.podcast.spotifyLink }}" target="_blank" rel="noopener">
+          <i class="fa-brands fa-spotify"></i>
+          Spotify
+        </a>
+      </div>
     </div>
   </div>
 </header>

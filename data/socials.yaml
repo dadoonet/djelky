@@ -1,16 +1,16 @@
 # Social media and external links
-# Icons from Ionicons: https://ionic.io/ionicons
+# Icons from Font Awesome brands: https://fontawesome.com/icons
 - href: https://github.com/dadoonet/djdadoo.net
   target: _blank
-  icon: logo-github
+  icon: fa-brands fa-github
   title: GitHub
 
 - href: https://www.instagram.com/dj_elky
   target: _blank
-  icon: logo-instagram
+  icon: fa-brands fa-instagram
   title: Instagram
 
 - href: https://www.youtube.com/@DavidPilato
   target: _blank
-  icon: logo-youtube
+  icon: fa-brands fa-youtube
   title: YouTube
