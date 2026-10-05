@@ -1,11 +1,11 @@
-# CLAUDE.md — djdadoo.net
+# CLAUDE.md — djelky
 
 Site web et flux RSS pour la publication des mixes de DJ Elky (David Pilato) sur Apple Podcasts et le web.
 
 ## Architecture du projet
 
 ```sh
-djdadoo.net/
+djelky/
 ├── index.html         # Web player (Howler.js + SiriWave)
 ├── playlist.js        # Tableau JS des mixes (ordre antéchronologique)
 ├── djelky.rss         # Flux RSS podcast (iTunes/Apple Podcasts)
