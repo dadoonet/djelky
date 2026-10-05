@@ -70,7 +70,7 @@ enableGitInfo = true
   # For each episode
   # If the page does not define an audio_url field, the mp3 file is automatically guessed
   # from the website path with baseAudioURL as a prefix
-  baseAudioURL = "https://storage.googleapis.com/djdadoo/"
+  baseAudioURL = "https://storage.googleapis.com/djelky/"
   # This is a prefix for every episode in the RSS generated file
   trackTitle   = "David's Mix"
   # Optional keywords which are appended automatically to any other keyword defined for the episode

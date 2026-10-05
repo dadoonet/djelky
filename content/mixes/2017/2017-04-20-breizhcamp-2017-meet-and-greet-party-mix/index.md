@@ -2,11 +2,11 @@
 title: "BreizhCamp 2017"
 subtitle: "Meet And Greet Party Mix"
 date: 2017-04-20T18:45:00+01:00
+guid: "https://storage.googleapis.com/djdadoo/2017-04-20-breizhcamp-meet-and-greet.mp3"
 season: 2017
 episode: 23
 keywords: ["Live", "Elastic", "Public"]
 event: "BreizhCamp"
-audio_url: "https://storage.googleapis.com/djdadoo/2017-04-20-breizhcamp-meet-and-greet.mp3"
 audio_length: 173147532
 duration: "02:00:14"
 ---

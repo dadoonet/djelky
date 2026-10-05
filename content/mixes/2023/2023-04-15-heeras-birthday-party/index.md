@@ -1,6 +1,7 @@
 ---
 title: "Anniversaire Heera"
 date: 2023-04-15T23:30:00+01:00
+guid: "https://storage.googleapis.com/djdadoo/2023-04-15-AnniversaireHeera.mp3"
 season: 2023
 episode: 38
 keywords: ["Live", "Birthday"]
@@ -10,7 +11,6 @@ location:
   geo:
     lat: 49.0421
     lon: 2.0867
-audio_url: "https://storage.googleapis.com/djdadoo/2023-04-15-AnniversaireHeera.mp3"
 audio_length: 114173178
 duration: "00:47:34"
 ---

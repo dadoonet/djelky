@@ -2,11 +2,11 @@
 title: "Anniversaire 50 ans Mika"
 subtitle: "Part 2"
 date: 2025-09-20T23:50:00+02:00
+guid: "https://storage.googleapis.com/djdadoo/2025-09-20-50ansMika-part2.mp3"
 season: 2025
 episode: 65
 event: "Anniversaire 50 ans Mika"
 keywords: ["Live", "French Touch", "Birthday"]
-audio_url: "https://storage.googleapis.com/djdadoo/2025-09-20-50ansMika-part2.mp3"
 audio_length: 132750279
 duration: "00:55:17"
 ---

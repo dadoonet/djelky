@@ -90,7 +90,7 @@ xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <itunes:image href="{{ $baseURL }}{{ $cover | strings.TrimPrefix "/" }}" />
     {{- end }}
     <enclosure url="{{ $audioURL }}" length="{{ $p.Params.audio_length | default 0 }}" type="{{ $p.Params.audio_type | default $site.Params.podcast.audioType }}" />
-    <guid>{{ $audioURL }}</guid>
+    <guid>{{ $p.Params.guid | default $audioURL }}</guid>
     <pubDate>{{ $p.Date.Format "02 Jan 2006 15:04:05 -0700" }}</pubDate>
     {{- with $p.Params.duration }}
     <itunes:duration>{{ . }}</itunes:duration>

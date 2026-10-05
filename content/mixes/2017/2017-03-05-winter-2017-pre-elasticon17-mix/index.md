@@ -1,11 +1,11 @@
 ---
 title: "Pre elastic{ON}'17 Winter Mix"
 date: 2017-03-05T11:30:00+01:00
+guid: "https://storage.googleapis.com/djdadoo/2017-03-05-Winter-2017-Pre-ElasticON-Mix.mp3"
 season: 2017
 episode: 21
 event: "Elastic"
 keywords: ["Studio", "Elastic"]
-audio_url: "https://storage.googleapis.com/djdadoo/2017-03-05-Winter-2017-Pre-ElasticON-Mix.mp3"
 audio_length: 99180044
 duration: "01:08:52"
 ---

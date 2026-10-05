@@ -2,6 +2,7 @@
 title: "Skiboo II - ta route du Rhum à toi"
 subtitle: "Funk Set designed on DJ Studio"
 date: 2026-10-04T13:02:00+01:00
+guid: "https://storage.googleapis.com/djdadoo/mixes/2026/2026-10-04-ta-route-du-rhum-a-toi-funk.mp3"
 season: 2026
 episode: 70
 keywords: ["Studio", "Funk", "DJ Studio"]

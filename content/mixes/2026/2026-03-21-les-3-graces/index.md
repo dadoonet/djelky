@@ -2,10 +2,10 @@
 title: "Les 3 Grâces"
 subtitle: "Années 80"
 date: 2026-03-21T12:30:00+02:00
+guid: "https://storage.googleapis.com/djdadoo/2026-03-21-Les_3_graces.mp3"
 season: 2026
 episode: 67
 keywords: ["Studio", "80's", "Birthday"]
-audio_url: "https://storage.googleapis.com/djdadoo/2026-03-21-Les_3_graces.mp3"
 audio_length: 111978772
 duration: "00:46:39"
 chapters:

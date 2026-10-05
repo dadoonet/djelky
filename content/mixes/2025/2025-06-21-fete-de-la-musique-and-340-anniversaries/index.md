@@ -2,10 +2,10 @@
 title: "Anniversaires 3*40"
 subtitle: "Fête de la musique"
 date: 2025-06-21T21:00:00+02:00
+guid: "https://storage.googleapis.com/djdadoo/2025-06-21-AnniversaireArnaud.mp3"
 season: 2025
 episode: 59
 keywords: ["Live", "Lounge", "House", "Electro"]
-audio_url: "https://storage.googleapis.com/djdadoo/2025-06-21-AnniversaireArnaud.mp3"
 audio_length: 450915648 
 duration: "03:07:53"
 ---

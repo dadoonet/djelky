@@ -2,6 +2,7 @@
 title: "Volcamp 2025"
 subtitle: "Full Set (Raw)"
 date: 2025-10-02T18:30:00+02:00
+guid: "https://storage.googleapis.com/djdadoo/2025-10-02-volcamp.mp3"
 season: 2025
 episode: 66
 location:
@@ -13,7 +14,6 @@ authors:
   - name: DJ Elky
   - name: Julien Ponge
 keywords: ["Live", "House", "French Touch", "Elastic", "Public"]
-audio_url: "https://storage.googleapis.com/djdadoo/2025-10-02-volcamp.mp3"
 audio_length: 626656991
 duration: "04:21:06"
 ---

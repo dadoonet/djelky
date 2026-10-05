@@ -2,10 +2,10 @@
 title: "Lolo & Mika"
 subtitle: "1er An"
 date: 2019-12-31T23:59:00+02:00
+guid: "https://storage.googleapis.com/djdadoo/2020-01-01-LoloEtMika-1An-fullmix.mp3"
 season: 2019
 episode: 26
 keywords: ["Live"]
-audio_url: "https://storage.googleapis.com/djdadoo/2020-01-01-LoloEtMika-1An-fullmix.mp3"
 audio_length: 341528811
 duration: "03:57:10"
 ---

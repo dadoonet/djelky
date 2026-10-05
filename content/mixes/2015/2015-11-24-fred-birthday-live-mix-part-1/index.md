@@ -2,6 +2,7 @@
 title: "Anniversaire Fred"
 subtitle: "Part 1"
 date: 2015-11-24T21:30:00+01:00
+guid: "https://storage.googleapis.com/djdadoo/2015-11-21-Fred-Birthday-Live-Mix-Part1.mp3"
 season: 2015
 episode: 16
 event: "Anniversaire Fred"
@@ -12,7 +13,6 @@ location:
     lat: 48.9833
     lon: 2.1833
 keywords: ["Live", "Birthday"]
-audio_url: "https://storage.googleapis.com/djdadoo/2015-11-21-Fred-Birthday-Live-Mix-Part1.mp3"
 audio_length: 21004740
 duration: "0:21:53"
 ---

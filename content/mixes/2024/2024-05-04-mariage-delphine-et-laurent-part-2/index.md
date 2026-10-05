@@ -2,11 +2,11 @@
 title: "Mariage Delphine & Laurent"
 subtitle: "Part 2"
 date: 2024-05-04T18:00:00+02:00
+guid: "https://storage.googleapis.com/djdadoo/2024-05-04-MariageDelphineEtLaurent-Part2.mp3"
 season: 2024
 episode: 50
 event: "Mariage Delphine & Laurent"
 keywords: ["Live", "Wedding"]
-audio_url: "https://storage.googleapis.com/djdadoo/2024-05-04-MariageDelphineEtLaurent-Part2.mp3"
 audio_length: 117273438
 duration: "00:48:52"
 ---

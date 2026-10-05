@@ -1,10 +1,10 @@
 ---
 title: "DevQuest Niort 2025"
 date: 2025-06-05T18:30:00+02:00
+guid: "https://storage.googleapis.com/djdadoo/2025-06-05-DevQuest.mp3"
 season: 2025
 episode: 58
 keywords: ["Live", "Elastic", "Public"]
-audio_url: "https://storage.googleapis.com/djdadoo/2025-06-05-DevQuest.mp3"
 audio_length: 154976458 
 duration: "01:04:34"
 ---

@@ -2,6 +2,7 @@
 title: "Les Envahisseurs"
 subtitle: "Take 2"
 date: 2023-02-21T18:30:00+01:00
+guid: "https://storage.googleapis.com/djdadoo/2023-02-21-LesEnvahisseurs-Take2.mp3"
 season: 2023
 episode: 36
 keywords: ["Studio"]
@@ -9,7 +10,6 @@ authors:
   - name: "Les Envahisseurs"
   - name: "DJ Elky"
   - name: "DJ Xylème"
-audio_url: "https://storage.googleapis.com/djdadoo/2023-02-21-LesEnvahisseurs-Take2.mp3"
 audio_length: 162691470
 duration: "01:07:47"
 ---

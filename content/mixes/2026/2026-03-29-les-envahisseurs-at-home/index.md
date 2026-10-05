@@ -2,6 +2,7 @@
 title: "Les Envahisseurs at Home"
 subtitle: "House Set from home studio on XDJ-AZ and CDJ3000"
 date: 2026-03-29T11:30:00+01:00
+guid: "https://storage.googleapis.com/djdadoo/mixes/2026/2026-03-29-les-envahisseurs-at-home.mp3"
 season: 2026
 episode: 69
 keywords: ["Studio", "House", "4 hands"]

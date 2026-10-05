@@ -1,101 +1,138 @@
 #!/usr/bin/env bash
 # rename-gcs-buckets.sh
 #
-# Renames audio files in the GCS bucket to match the episode directory structure:
+# Migrates episode audio files from the legacy flat layout to the default layout:
 #   OLD: gs://djdadoo/2025-02-06-TouraineTech.mp3
-#   NEW: gs://djdadoo/mixes/2025/2025-02-06-touraine-tech-2025.mp3
+#   NEW: gs://djelky/mixes/2025/2025-02-06-touraine-tech-2025.mp3
 #
-# On success, removes audio_url from the episode's index.md frontmatter
-# (the URL becomes implicit from the directory structure).
+# For each content/mixes/YYYY/slug/index.md:
+#   1. freezes the current RSS <guid> (= the old audio URL) in a `guid:` frontmatter field,
+#      so podcast apps do not see the episodes as new;
+#   2. COPIES the object from the old bucket to the new one (the old bucket is left
+#      untouched; delete it manually once the migration is validated);
+#   3. removes `audio_url` (the URL is derived from baseAudioURL + bundle path).
+#      Exception: non-mp3 files (e.g. .m4a) keep an explicit `audio_url` to the new location.
+#
+# The script is idempotent: it can be re-run after a partial failure.
 #
 # Usage:
 #   ./rename-gcs-buckets.sh           # dry-run (shows what would happen)
-#   ./rename-gcs-buckets.sh --apply   # actually rename files and remove audio_url
+#   ./rename-gcs-buckets.sh --apply   # move files and update frontmatter
 
 set -euo pipefail
 
-BUCKET="gs://djdadoo"
+OLD_BUCKET="djdadoo"
+NEW_BUCKET="djelky"
+OLD_BASE="https://storage.googleapis.com/${OLD_BUCKET}/"
+NEW_BASE="https://storage.googleapis.com/${NEW_BUCKET}/"
 
-# ── Preflight checks ──────────────────────────────────────────────────────────
-echo "==> Checking gsutil..."
-
-if ! command -v gsutil &>/dev/null; then
-  echo "  ERROR  gsutil not found. Install the Google Cloud SDK and retry." >&2
-  exit 1
-fi
-
-if ! gsutil ls "${BUCKET}" &>/dev/null; then
-  echo "  ERROR  Cannot list ${BUCKET}." >&2
-  echo "         Make sure you are authenticated (gcloud auth login) and have read access." >&2
-  exit 1
-fi
-
-echo "  OK     Connected and bucket is readable."
-echo ""
-# ─────────────────────────────────────────────────────────────────────────────
 CONTENT_DIR="$(cd "$(dirname "$0")" && pwd)/content/mixes"
 DRY_RUN=true
+[[ "${1:-}" == "--apply" ]] && DRY_RUN=false
 
-if [[ "${1:-}" == "--apply" ]]; then
-  DRY_RUN=false
-fi
-
-if [[ "$DRY_RUN" == "true" ]]; then
-  echo "==> Dry-run mode — no files will be renamed. Pass --apply to execute."
+# ── GCS helpers (gcloud storage preferred, gsutil as fallback) ────────────────
+if command -v gcloud &>/dev/null; then
+  gcs_exists() { gcloud storage ls "$1" &>/dev/null; }
+  gcs_mv()     { gcloud storage cp "$1" "$2" >/dev/null; }
+elif command -v gsutil &>/dev/null; then
+  gcs_exists() { gsutil -q stat "$1" &>/dev/null; }
+  gcs_mv()     { gsutil -q cp "$1" "$2"; }
 else
-  echo "==> Apply mode — files will be renamed in GCS and audio_url removed from frontmatter."
+  echo "ERROR  neither gcloud nor gsutil found. Install the Google Cloud SDK." >&2
+  exit 1
 fi
-echo ""
 
-renamed=0
-skipped=0
-errors=0
+echo "==> Checking buckets..."
+for b in "$OLD_BUCKET" "$NEW_BUCKET"; do
+  if ! gcs_exists "gs://${b}/"; then
+    echo "  ERROR  cannot access gs://${b}/ (does it exist? are you authenticated: gcloud auth login ?)" >&2
+    exit 1
+  fi
+  echo "  OK     gs://${b}/"
+done
+echo
+
+if $DRY_RUN; then
+  echo "==> Dry-run mode — nothing will be changed. Pass --apply to execute."
+else
+  echo "==> Apply mode — files will be moved and frontmatter updated."
+fi
+echo
+
+# ── Frontmatter rewrite ───────────────────────────────────────────────────────
+# $1 = file, $2 = guid to add (empty = none), $3 = new audio_url ("" = remove it)
+rewrite_frontmatter() {
+  local file="$1" guid="$2" new_audio="$3"
+  awk -v guid="$guid" -v new_audio="$new_audio" '
+    BEGIN { fm = 0; done_guid = 0 }
+    /^---[ \t]*$/ && fm < 2 { fm++; print; next }
+    fm == 1 && /^audio_url:/ {
+      if (new_audio != "") print "audio_url: \"" new_audio "\""
+      next
+    }
+    { print }
+    fm == 1 && /^date:/ && guid != "" && !done_guid {
+      print "guid: \"" guid "\""
+      done_guid = 1
+    }
+  ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+}
+
+moved=0; skipped=0; errors=0
 
 while IFS= read -r index_md; do
   dir=$(dirname "$index_md")
   slug=$(basename "$dir")
   year=$(basename "$(dirname "$dir")")
 
-  old_full=$(grep '^audio_url:' "$index_md" | sed 's/^audio_url: *"\(.*\)"/\1/')
-  old_url="${old_full#https://storage.googleapis.com/djdadoo/}"
+  audio_url=$(grep -m1 '^audio_url:' "$index_md" | sed -E 's/^audio_url:[[:space:]]*"?([^"]*)"?[[:space:]]*$/\1/' || true)
+  has_guid=$(grep -c '^guid:' "$index_md" || true)
 
-  if [[ -z "$old_url" ]]; then
-    echo "  SKIP    (audio_url already removed)  $(basename "$dir")"
-    (( skipped++ )) || true
-    continue
+  # Already migrated (explicit URL on the new host)
+  if [[ -n "$audio_url" && "$audio_url" == "$NEW_BASE"* ]]; then
+    echo "  SKIP    $slug (already migrated)"; skipped=$((skipped+1)); continue
   fi
 
-  new_url="mixes/${year}/${slug}.mp3"
-
-  if [[ "$old_url" == "$new_url" ]]; then
-    echo "  CLEAN   ${old_url}  (already correct in GCS, removing audio_url)"
-    if [[ "$DRY_RUN" == "false" ]]; then
-      grep -v '^audio_url:' "$index_md" > "$index_md.tmp" && mv "$index_md.tmp" "$index_md"
-      (( renamed++ )) || true
-    else
-      (( renamed++ )) || true
-    fi
-    continue
-  fi
-
-  echo "  RENAME  ${old_url}  →  ${new_url}"
-
-  if [[ "$DRY_RUN" == "false" ]]; then
-    if gsutil mv "${BUCKET}/${old_url}" "${BUCKET}/${new_url}" 2>/dev/null; then
-      grep -v '^audio_url:' "$index_md" > "$index_md.tmp" && mv "$index_md.tmp" "$index_md"
-      (( renamed++ )) || true
-    else
-      echo "  ERROR   gsutil mv failed for ${old_url}" >&2
-      (( errors++ )) || true
+  if [[ -n "$audio_url" ]]; then
+    old_obj="${audio_url#"$OLD_BASE"}"
+    if [[ "$old_obj" == "$audio_url" ]]; then
+      echo "  ERROR   $slug: audio_url is not under $OLD_BASE ($audio_url)" >&2
+      errors=$((errors+1)); continue
     fi
   else
-    (( renamed++ )) || true
+    old_obj="mixes/${year}/${slug}.mp3"      # default path used by Hugo before migration
   fi
 
-done < <(find "$CONTENT_DIR" -name "index.md" | sort)
+  ext="${old_obj##*.}"
+  new_obj="mixes/${year}/${slug}.${ext}"
+  guid_value=""
+  [[ "$has_guid" -eq 0 ]] && guid_value="${OLD_BASE}${old_obj}"
+  new_audio=""
+  [[ "$ext" != "mp3" ]] && new_audio="${NEW_BASE}${new_obj}"
 
-echo ""
-echo "==> Summary: ${renamed} to process, ${skipped} already done, ${errors} errors."
-if [[ "$DRY_RUN" == "true" ]]; then
-  echo "    Run with --apply to execute."
-fi
+  # 1. GCS move
+  if gcs_exists "gs://${NEW_BUCKET}/${new_obj}"; then
+    echo "  EXISTS  gs://${NEW_BUCKET}/${new_obj}"
+  elif gcs_exists "gs://${OLD_BUCKET}/${old_obj}"; then
+    echo "  COPY    gs://${OLD_BUCKET}/${old_obj}  →  gs://${NEW_BUCKET}/${new_obj}"
+    if ! $DRY_RUN && ! gcs_mv "gs://${OLD_BUCKET}/${old_obj}" "gs://${NEW_BUCKET}/${new_obj}"; then
+      echo "  ERROR   copy failed for ${old_obj}" >&2; errors=$((errors+1)); continue
+    fi
+  else
+    echo "  ERROR   $slug: gs://${OLD_BUCKET}/${old_obj} not found" >&2
+    errors=$((errors+1)); continue
+  fi
+
+  # 2. Frontmatter
+  [[ -n "$guid_value" ]] && echo "          + guid: $guid_value"
+  [[ -n "$audio_url" && -z "$new_audio" ]] && echo "          - audio_url (now derived)"
+  [[ -n "$new_audio" ]] && echo "          ~ audio_url: $new_audio (non-mp3 override kept)"
+  $DRY_RUN || rewrite_frontmatter "$index_md" "$guid_value" "$new_audio"
+
+  moved=$((moved+1))
+done < <(find "$CONTENT_DIR" -name index.md | sort)
+
+echo
+echo "==> Summary: ${moved} to process/processed, ${skipped} already done, ${errors} errors."
+$DRY_RUN && echo "    Run with --apply to execute."
+[[ $errors -eq 0 ]]
