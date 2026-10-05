@@ -752,6 +752,7 @@ a:hover { text-decoration: underline; }
 }
 .mix-card-info-btn:hover {
   color: var(--color-accent);
+  text-decoration: none;
 }
 
 /* ----- YouTube badge on card ----- */
