@@ -70,27 +70,6 @@
     {{ if not $cover }}{{ with .Resources.GetMatch "cover.*" }}{{ $cover = .RelPermalink }}{{ end }}{{ end }}
     {{ if not $cover }}{{ $cover = .Site.Params.podcast.cover }}{{ end }}
 
-    {{/* Support both old 'author' string and new 'authors' array formats */}}
-    {{ $authors := slice }}
-    {{ if $p.Params.authors }}
-      {{ $authors = $p.Params.authors }}
-    {{ else }}
-      {{ $author := $p.Params.author | default .Site.Params.podcast.author | default "undefined" }}
-      {{ $authors = slice (dict "name" $author) }}
-    {{ end }}
-
-    {{/* Build authors JSON with sanitized cover URLs */}}
-    {{ $authorsJSON := slice }}
-    {{ range $authors }}
-      {{ $authorName := .name | default .Name }}
-      {{ $authorCover := .cover | default .Cover }}
-      {{ if not $authorCover }}
-        {{ $authorSanitized := replace ($authorName | lower) " " "-" }}
-        {{ $authorCover = printf "/img/authors/%s.png" $authorSanitized }}
-      {{ end }}
-      {{ $authorsJSON = $authorsJSON | append (dict "name" $authorName "cover" $authorCover) }}
-    {{ end }}
-
     {{/* Open new season section when season changes */}}
     {{ if ne $season $lastSeason }}
       {{ if $lastSeason }}</div></section>{{ end }}
@@ -112,8 +91,7 @@
         {{ if $youtubeID }}
         <a href="https://www.youtube.com/watch?v={{ $youtubeID }}" class="mix-card-youtube-btn" target="_blank" rel="noopener" aria-label="Watch this mix on YouTube"><i class="fa-brands fa-youtube"></i></a>
         {{ end }}
-        <button class="mix-card-info-btn" aria-label="Episode details"><i class="fa-solid fa-circle-info"></i></button>
-        <a href="{{ $episodePermalink }}" class="mix-card-link-btn" target="_blank" rel="noopener" aria-label="Open this page"><i class="fa-solid fa-share"></i></a>
+        <a href="{{ $episodePermalink }}" class="mix-card-info-btn" target="_blank" rel="noopener" aria-label="Episode details"><i class="fa-solid fa-circle-info"></i></a>
       </div>
       <div class="mix-card-info">
         <h2 class="mix-card-title">{{ $p.Title }}</h2>
@@ -129,20 +107,6 @@
         <p class="mix-card-meta">
           <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "02 Jan 2006" }}</time>
         </p>
-      </div>
-      <div class="mix-data" hidden
-           data-title="{{ $p.Title }}"
-         data-page-url="{{ $p.Permalink }}"
-           data-date="{{ $p.Date.Format "02 Jan 2006" }}"
-           data-episode="{{ $p.Params.episode }}"
-           data-season="{{ $p.Params.season }}"
-           data-duration="{{ $p.Params.duration }}"
-           data-subtitle="{{ $p.Params.subtitle }}"
-           data-keywords="{{ delimit ($p.Params.keywords | default slice) ", " }}"
-           data-event="{{ $p.Params.event | default "" }}"
-           data-cover="{{ $cover }}"
-           data-authors="{{ $authorsJSON | jsonify }}">
-        {{ $p.Content }}
       </div>
     </article>
     {{ $idx = add $idx 1 }}

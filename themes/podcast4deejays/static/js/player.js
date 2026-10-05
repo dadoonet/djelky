@@ -38,7 +38,6 @@
   var sound           = null;
   var rafId           = null;
   var isDragging      = false;
-  var modalEpisodeData = null;  // Store data of episode currently shown in modal
 
   // ── Helpers ────────────────────────────────────────────────────────────────
   function formatTime(secs) {
@@ -168,20 +167,6 @@
       icon.className = playing ? "fa-solid fa-pause" : "fa-solid fa-play";
     }
     btnPlay.setAttribute("aria-label", playing ? "Pause" : "Lecture");
-  }
-
-  function setModalPlayBtn(playing) {
-    var playBtn = modalEl.querySelector(".mix-modal-cover-play");
-    if (playBtn) {
-      var icon = playBtn.querySelector("i");
-      if (!icon) {
-        icon = document.createElement("i");
-        playBtn.innerHTML = "";
-        playBtn.appendChild(icon);
-      }
-      icon.className = playing ? "fa-solid fa-pause" : "fa-solid fa-play";
-      playBtn.setAttribute("aria-label", playing ? "Pause" : "Lire cet épisode");
-    }
   }
 
   function togglePlayPause() {
@@ -406,249 +391,16 @@
         }
       }
     }
-
-    // Update modal play button if it's open and showing this episode
-    if (!modalEl.hasAttribute("hidden") && modalEpisodeData) {
-      var cd = cards[index] ? cards[index].querySelector(".mix-data") : null;
-      if (cd && cd.dataset.season === modalEpisodeData.season &&
-          cd.dataset.episode === modalEpisodeData.episode) {
-        setModalPlayBtn(playing);
-      }
-    }
   }
 
 
-  // ── Info modal ─────────────────────────────────────────────────────────────
-  var modalEl       = document.getElementById("mix-modal");
-  var modalClose    = modalEl.querySelector(".mix-modal-close");
-  var modalBackdrop = modalEl.querySelector(".mix-modal-backdrop");
-
-  function getRelatedMixes(event) {
-    if (!event) return [];
-    var related = [];
-    var allDataElements = document.querySelectorAll(".mix-data");
-    allDataElements.forEach(function(el) {
-      if (el.dataset.event && el.dataset.event === event) {
-        related.push(el);
-      }
-    });
-    // Sort by episode number (ascending - oldest first)
-    related.sort(function(a, b) {
-      var episodeA = parseInt(a.dataset.episode, 10) || 0;
-      var episodeB = parseInt(b.dataset.episode, 10) || 0;
-      return episodeA - episodeB;
-    });
-    return related;
-  }
-
-  function openModal(card) {
-    var d = card.querySelector(".mix-data");
-    if (!d) return;
-
-    // Store modal episode data for updateActiveCard
-    modalEpisodeData = {
-      season: d.dataset.season,
-      episode: d.dataset.episode
-    };
-
-    modalEl.querySelector(".mix-modal-cover").src            = d.dataset.cover || "";
-    modalEl.querySelector(".mix-modal-cover").alt            = d.dataset.title || "";
-    modalEl.querySelector(".mix-modal-title").textContent    = d.dataset.title || "";
-    modalEl.querySelector(".mix-modal-episode").textContent  =
-      "Ép. " + (d.dataset.episode || "?") + " · " + (d.dataset.season || "");
-    modalEl.querySelector(".mix-modal-duration").textContent = d.dataset.duration || "";
-
-    // Set subtitle and show/hide based on content
-    var subtitleEl = modalEl.querySelector(".mix-modal-subtitle");
-    if (d.dataset.subtitle) {
-      subtitleEl.textContent = d.dataset.subtitle;
-      subtitleEl.removeAttribute("hidden");
-    } else {
-      subtitleEl.setAttribute("hidden", "");
-    }
-
-    // Render keywords as badges
-    var keywordsEl = modalEl.querySelector(".mix-modal-keywords");
-    keywordsEl.innerHTML = "";
-    if (d.dataset.keywords) {
-      var keywords = d.dataset.keywords.split(",").map(function(k) { return k.trim(); }).filter(function(k) { return k; });
-      var keywordHTML = keywords.map(function(keyword) {
-        return '<span class="keyword-badge">' + escapeHtml(keyword) + '</span>';
-      }).join("");
-      keywordsEl.innerHTML = keywordHTML;
-    }
-
-    // Handle multiple authors
-    var authorsListEl = modalEl.querySelector(".mix-modal-authors-list");
-    authorsListEl.innerHTML = "";
-    var authorsJSON = [];
-    try {
-      authorsJSON = JSON.parse(d.dataset.authors || "[]");
-    } catch (e) {
-      console.error("Failed to parse authors JSON", e);
-    }
-
-    authorsJSON.forEach(function(author) {
-      var authorEl = document.createElement("div");
-      authorEl.className = "mix-modal-author";
-
-      var imgEl = document.createElement("img");
-      imgEl.className = "mix-modal-author-cover";
-      imgEl.src = author.cover || "/img/authors/undefined.png";
-      imgEl.alt = author.name || "";
-      imgEl.onerror = function() {
-        this.src = "/img/authors/undefined.png";
-      };
-
-      var nameEl = document.createElement("p");
-      nameEl.className = "mix-modal-author-name";
-      nameEl.textContent = author.name || "";
-
-      authorEl.appendChild(imgEl);
-      authorEl.appendChild(nameEl);
-      authorsListEl.appendChild(authorEl);
-    });
-
-    modalEl.querySelector(".mix-modal-body").innerHTML       = d.innerHTML;
-
-    // Resolve relative URLs from episode markdown content against the episode page URL.
-    var modalBody = modalEl.querySelector(".mix-modal-body");
-    var pageUrl = d.dataset.pageUrl || "";
-    if (modalBody && pageUrl) {
-      modalBody.querySelectorAll("img[src], a[href]").forEach(function(el) {
-        var attr = el.tagName === "IMG" ? "src" : "href";
-        var raw = el.getAttribute(attr);
-        if (!raw) return;
-
-        var isRelative =
-          !/^([a-z]+:)?\/\//i.test(raw) &&
-          !raw.startsWith("/") &&
-          !raw.startsWith("#") &&
-          !raw.startsWith("data:") &&
-          !raw.startsWith("mailto:") &&
-          !raw.startsWith("tel:");
-
-        if (!isRelative) return;
-
-        try {
-          el.setAttribute(attr, new URL(raw, pageUrl).toString());
-        } catch (e) {
-          // Keep original value if URL construction fails.
-        }
-      });
-    }
-
-    // Handle related mixes
-    var event = d.dataset.event;
-    var sidebarEl = modalEl.querySelector(".mix-modal-sidebar");
-    var relatedEl = modalEl.querySelector(".mix-modal-related");
-
-    if (event) {
-      var relatedMixes = getRelatedMixes(event);
-      if (relatedMixes.length > 1) {
-        // Show sidebar
-        sidebarEl.removeAttribute("hidden");
-        relatedEl.innerHTML = "";
-
-        relatedMixes.forEach(function(relatedData) {
-          var relatedTitle = relatedData.dataset.title || "";
-          var relatedSubtitle = relatedData.dataset.subtitle || "";
-          var relatedEpisode = relatedData.dataset.episode || "?";
-          var relatedSeason = relatedData.dataset.season || "";
-          var isActive = relatedData.dataset.season === d.dataset.season &&
-                         relatedData.dataset.episode === d.dataset.episode;
-
-          var relatedLink = document.createElement("div");
-          relatedLink.className = "mix-modal-related-item" + (isActive ? " active" : "");
-          var html = '<strong>' + escapeHtml(relatedTitle) + '</strong>';
-          if (relatedSubtitle) {
-            html += '<br><small>' + escapeHtml(relatedSubtitle) + '</small>';
-          }
-          html += '<br><small>Ép. ' + escapeHtml(relatedEpisode) + '</small>';
-          relatedLink.innerHTML = html;
-
-          // Find corresponding card by season + episode
-          var cardIndex = Array.from(cards).findIndex(function(c) {
-            var cd = c.querySelector(".mix-data");
-            return cd && cd.dataset.season === relatedData.dataset.season &&
-                         cd.dataset.episode === relatedData.dataset.episode;
-          });
-
-          if (cardIndex >= 0) {
-            relatedLink.style.cursor = "pointer";
-            relatedLink.addEventListener("click", function() {
-              // Remove playing state from old episode
-              if (currentIndex >= 0 && cards[currentIndex]) {
-                cards[currentIndex].classList.remove("active", "playing");
-                var icon = cards[currentIndex].querySelector(".play-icon");
-                if (icon) icon.textContent = "▶";
-              }
-              closeModal();
-              openModal(cards[cardIndex]);
-            });
-          }
-          relatedEl.appendChild(relatedLink);
-        });
-      } else {
-        sidebarEl.setAttribute("hidden", "");
-      }
-    } else {
-      sidebarEl.setAttribute("hidden", "");
-    }
-
-    modalEl.removeAttribute("hidden");
-    document.body.style.overflow = "hidden";
-
-    // Update modal play button icon based on current playback state
-    var cardIndex = Array.from(cards).findIndex(function(c) {
-      var cd = c.querySelector(".mix-data");
-      return cd && cd.dataset.season === d.dataset.season &&
-                   cd.dataset.episode === d.dataset.episode;
-    });
-    var isPlaying = cardIndex === currentIndex && sound && sound.playing();
-    setModalPlayBtn(isPlaying);
-
-    // Add play button handler
-    var playBtn = modalEl.querySelector(".mix-modal-cover-play");
-    playBtn.onclick = function() {
-      if (cardIndex >= 0) {
-        if (cardIndex === currentIndex && sound && sound.playing()) {
-          sound.pause();
-        } else {
-          loadAndPlay(cardIndex);
-        }
-      }
-    };
-  }
-
-  function closeModal() {
-    modalEl.setAttribute("hidden", "");
-    document.body.style.overflow = "";
-    modalEpisodeData = null;
-  }
-
-  document.querySelectorAll(".mix-card-info-btn").forEach(function (btn) {
-    btn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      openModal(btn.closest(".mix-card"));
-    });
-  });
-
-  document.querySelectorAll(".mix-card-link-btn").forEach(function (link) {
+  document.querySelectorAll(".mix-card-info-btn, .mix-card-youtube-btn").forEach(function (link) {
     link.addEventListener("click", function (e) {
       e.stopPropagation();
     });
-  });
-
-  document.querySelectorAll(".mix-card-youtube-btn").forEach(function (link) {
-    link.addEventListener("click", function (e) {
+    link.addEventListener("keydown", function (e) {
       e.stopPropagation();
     });
-  });
-  modalClose.addEventListener("click", closeModal);
-  modalBackdrop.addEventListener("click", closeModal);
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !modalEl.hasAttribute("hidden")) closeModal();
   });
 
 })();
