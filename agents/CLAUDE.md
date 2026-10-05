@@ -24,7 +24,7 @@ djdadoo.net/           (branche: main — source Hugo)
 ├── static/
 │   ├── img/           # Artworks des mixes (format: YYYYMMDD-nomevt.jpg)
 │   ├── djdadoo-new.jpg
-│   └── CNAME          # djdadoo.pilato.fr
+│   └── CNAME          # djelky.pilato.fr
 ├── scripts/
 │   └── migrate_rss.py # Script de migration RSS → Hugo .md (usage unique)
 └── .github/
@@ -93,8 +93,8 @@ GitHub Actions déploie automatiquement depuis `main` vers `gh-pages`.
 |--------------|--------------------------------------------------|
 | Titre        | DJ Elky mixes                                    |
 | Auteur       | David Pilato (david@pilato.fr)                   |
-| Site         | https://djdadoo.pilato.fr/                       |
-| RSS          | https://djdadoo.pilato.fr/djdadoo.rss            |
+| Site         | https://djelky.pilato.fr/                        |
+| RSS          | https://djelky.pilato.fr/djdadoo.rss             |
 | Description  | Funk, house and DJ groove mixes                  |
 | Catégorie    | Music                                            |
 | Explicit     | false                                            |
@@ -103,7 +103,7 @@ GitHub Actions déploie automatiquement depuis `main` vers `gh-pages`.
 
 ## Validation RSS
 
-Utiliser [podba.se](https://podba.se/?url=https://djdadoo.pilato.fr/djdadoo.rss) pour valider le flux RSS après chaque déploiement.
+Utiliser [podba.se](https://podba.se/?url=https://djelky.pilato.fr/djdadoo.rss) pour valider le flux RSS après chaque déploiement.
 
 ## Test local
 

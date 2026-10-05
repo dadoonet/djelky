@@ -10,7 +10,7 @@ djdadoo.net/
 ├── playlist.js        # Tableau JS des mixes (ordre antéchronologique)
 ├── djdadoo.rss        # Flux RSS podcast (iTunes/Apple Podcasts)
 ├── djdadoo-new.jpg    # Logo du podcast
-├── CNAME              # Domaine : djdadoo.pilato.fr
+├── CNAME              # Domaine : djelky.pilato.fr
 ├── css/styles.css     # Style (dégradé violet → bleu)
 ├── js/player.js       # Logique du player audio
 └── img/               # Artworks des mixes (format: YYYYMMDD-nomevt.jpg)
@@ -52,7 +52,7 @@ Structure d'un item :
   <title>Nom du mix</title>
   <itunes:subtitle>Funk / House / Groove</itunes:subtitle>
   <description>Description de l'événement ou du mix</description>
-  <itunes:image href="https://djdadoo.pilato.fr/img/YYYYMMDD-nomevt.jpg" />
+  <itunes:image href="https://djelky.pilato.fr/img/YYYYMMDD-nomevt.jpg" />
   <enclosure url="https://storage.googleapis.com/djdadoo/nom-du-fichier.mp3"
              length="TAILLE_EN_OCTETS"
              type="audio/mpeg" />
@@ -90,7 +90,7 @@ GitHub Pages déploie automatiquement depuis `gh-pages`.
 |--------------|---------------------------------------------|
 | Titre        | DJ Elky mixes                               |
 | Auteur       | David Pilato (david@pilato.fr)              |
-| Site         | https://djdadoo.pilato.fr/                  |
+| Site         | https://djelky.pilato.fr/                   |
 | Description  | Funk, house and DJ groove mixes             |
 | Catégorie    | Music                                       |
 | Explicit     | false                                       |

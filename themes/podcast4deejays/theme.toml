@@ -1,7 +1,7 @@
 name = "podcast4deejays"
 license = "Apache2"
 description = "Theme for Deejays who are willing to share their mixes as podcasts"
-homepage = "https://djdadoo.pilato.fr"
+homepage = "https://djelky.pilato.fr"
 min_version = "0.157.0"
 
 [author]

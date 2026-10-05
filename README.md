@@ -2,7 +2,7 @@
 
 Personal podcast site for DJ Elky mixes, built with [Hugo](https://gohugo.io/) and the custom `podcast4deejays` theme.
 
-Live at: <https://djdadoo.pilato.fr/>
+Live at: <https://djelky.pilato.fr/>
 
 ---
 
@@ -71,7 +71,7 @@ Essential site-level config in `hugo.toml`:
 
 ```toml
 title = "DJ Elky Mixes"                    # Site title (fallback for RSS feed <title>)
-baseURL = "https://djdadoo.pilato.fr/"
+baseURL = "https://djelky.pilato.fr/"
 languageCode = "en-us"
 
 [params.podcast]

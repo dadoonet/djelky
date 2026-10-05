@@ -25,7 +25,7 @@ NS = {
     "content":  "http://purl.org/rss/1.0/modules/content/",
 }
 
-SITE_BASE = "https://djdadoo.pilato.fr/"
+SITE_BASE = "https://djelky.pilato.fr/"
 REPO_ROOT  = Path(__file__).parent.parent
 OUTPUT_DIR = REPO_ROOT / "content" / "mixes"
 STATIC_DIR = REPO_ROOT / "static"
