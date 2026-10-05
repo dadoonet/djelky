@@ -12,7 +12,7 @@ xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <title>{{ $site.Params.podcast.title | default $site.Title }}</title>
   <link>{{ $baseURL }}</link>
   <atom:link href="{{ $baseURL }}{{ $site.Params.podcast.filename }}" rel="self" type="application/rss+xml" />
-  <language>{{ $site.LanguageCode }}</language>
+  <language>{{ $site.Language.Locale }}</language>
   <copyright>{{ $site.Params.podcast.author }}</copyright>
   <itunes:subtitle>{{ $site.Params.podcast.subtitle }}</itunes:subtitle>
   <itunes:author>{{ $site.Params.podcast.author }}</itunes:author>
