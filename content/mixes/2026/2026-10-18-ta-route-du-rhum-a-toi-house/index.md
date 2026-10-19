@@ -53,7 +53,7 @@ chapters:
     title: "John Gold - I Feel The Music In My Soul (Extended Mix)"
   - time: "01:05:32"
     title: "DJ Elky - Jingle Ma route du Rhum à moi"
-draft: true
+draft: false
 ---
 
 My exclusive DJ set to keep my brother company during his solo transatlantic crossing. Beyond proud of him!
